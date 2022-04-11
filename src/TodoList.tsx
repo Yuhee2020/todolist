@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+
 import {FilterValuesType} from './App';
 
 export type TaskType = {
@@ -21,18 +22,29 @@ export function TodoList(props: PropsType) {
         props.addTask(title)
         setTitle("")
     }
+    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+    const onKeyPressHandler= (e:KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            onClickAddTask()
+        }
+    }
+    const onAllOnClickHandler =() => {
+        props.changeFilter("all")
+    }
+    const onActiveOnClickHandler=() => {
+        props.changeFilter("active")
+    }
+    const onCompletedOnClickHandler=() => {
+        props.changeFilter("completed")
+    }
 
     return <div>
         <h3>{props.title}</h3>
         <div>
             <input
                 value={title}
-                onChange={(e) => setTitle(e.currentTarget.value)}
-                onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                        onClickAddTask()
-                    }
-                }}/>
+                onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}/>
 
             <button onClick={onClickAddTask}>+</button>
         </div>
@@ -49,21 +61,9 @@ export function TodoList(props: PropsType) {
             }
         </ul>
         <div>
-            <button onClick={() => {
-                props.changeFilter("all")
-            }}>
-                All
-            </button>
-            <button onClick={() => {
-                props.changeFilter("active")
-            }}>
-                Active
-            </button>
-            <button onClick={() => {
-                props.changeFilter("completed")
-            }}>
-                Completed
-            </button>
+            <button onClick={onAllOnClickHandler}>All</button>
+            <button onClick={onActiveOnClickHandler}>Active</button>
+            <button onClick={onCompletedOnClickHandler}>Completed</button>
         </div>
     </div>
 }
