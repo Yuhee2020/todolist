@@ -19,6 +19,7 @@ function App() {
         let newTask={id: v1(), title: newTitle, isDone: false}
         setTasks([newTask,...tasks])
 
+
     }
 
 
