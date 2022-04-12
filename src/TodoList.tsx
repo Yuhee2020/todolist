@@ -12,17 +12,18 @@ type PropsType = {
     tasks: Array<TaskType>
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValuesType) => void
-    addTask: ()=>void
+    addTask: (newTitle:string)=>void
 }
 
 export function Todolist(props: PropsType) {
     let[newTitle,setNewTitle]=useState("")
     console.log(newTitle)
+
     return <div>
         <h3>{props.title}</h3>
         <div>
             <input onChange={( event)=>{setNewTitle(event.currentTarget.value)}}/>
-            <button onClick={props.addTask}>+</button>
+            <button onClick={()=>props.addTask(newTitle)}>+</button>
         </div>
         <ul>
             {
