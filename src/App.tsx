@@ -4,36 +4,24 @@ import {Todolist} from './Todolist';
 
 function App() {
 
-    let [tasks, setTasks] = useState([
+    const[tasks, setTasks] =useState( [
         {id: 1, title: "HTML&CSS", isDone: true},
         {id: 2, title: "JS", isDone: true},
         {id: 3, title: "JS", isDone: true},
         {id: 4, title: "ReactJS", isDone: false}
     ])
+    const [filter, setFilter]=useState("All")
+    let filteredTasks=tasks
+    if(filter==="Active"){filteredTasks=tasks.filter(el=>el.isDone===false)}
+    if(filter==="Completed"){filteredTasks=tasks.filter(el=>el.isDone===true)}
 
-    const [filter, setFilter] = useState("all")
-
-    let filteredTasks = tasks
-    if (filter=== "active"){
-        tasks=tasks.filter(el=>!el.isDone)
-    }
-    if (filter==="completed"){
-        tasks=tasks.filter(el=>el.isDone)
+    const removeTask = (id:number) => {
+        setTasks(tasks.filter(el=>el.id!==id))
     }
 
-
-    const changeFilter = (filterValue: string) => {
+    const changeFilter=(filterValue:string)=>{
         setFilter(filterValue)
     }
-
-
-    const removeTask = (newId: number) => {
-        tasks = tasks.filter((el) => {
-            return el.id !== newId
-        })
-        setTasks(tasks)
-    }
-
 
     return (
         <div className="App">

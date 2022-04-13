@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type TaskType = {
+type TaskType = {
     id: number
     title: string
     isDone: boolean
@@ -21,22 +21,21 @@ export function Todolist(props: PropsType) {
             <button>+</button>
         </div>
         <ul>
-
             {props.tasks.map((el) => {
                 return <li key={el.id}>
-                    <button onClick={()=>props.removeTask(el.id)}>del</button>
+                    <button onClick={()=>{props.removeTask(el.id)}}>x</button>
                     <input type="checkbox" checked={el.isDone}/>
                     <span>{el.title}</span>
-
                 </li>
-            })}
 
+
+            })}
 
         </ul>
         <div>
-            <button onClick={()=>{props.changeFilter('all')}}>All</button>
-            <button onClick={()=>{props.changeFilter('active')}}>Active</button>
-            <button onClick={()=>{props.changeFilter ('completed')}}>Completed</button>
+            <button onClick={()=>{props.changeFilter('All')}}>All</button>
+            <button onClick={()=>{props.changeFilter('Active')}}>Active</button>
+            <button onClick={()=>{props.changeFilter('Completed')}}>Completed</button>
         </div>
     </div>
 }
