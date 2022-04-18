@@ -10,3 +10,7 @@
 .active-filter{
   background-color: gold;
 }
+
+.is-done{
+  opacity: 0.5;
+}
