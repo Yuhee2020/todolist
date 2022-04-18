@@ -14,7 +14,15 @@ function App() {
         {id: v1(), title: "Rest API", isDone: false},
         {id: v1(), title: "GraphQL", isDone: false},
     ]);
-    let [filter, setFilter] = useState<FilterValuesType>("all");
+
+    const changeStatus = (taskId: string, isDone: boolean) => {
+        let task = tasks.find(t => t.id === taskId)
+        if (task) {
+            task.isDone = isDone
+        }
+        setTasks([...tasks])
+    }
+
 
     function removeTask(id: string) {
         let filteredTasks = tasks.filter(t => t.id !== id);
@@ -25,14 +33,9 @@ function App() {
         let task = {id: v1(), title: title, isDone: false};
         let newTasks = [task, ...tasks];
         setTasks(newTasks);
-
     }
 
-    const changeTaskStatus = (taskId: string, isDone: boolean) => {
-        const updateTask = tasks.map(t => t.id === taskId ? {...t, isDone: isDone} : t)
-        setTasks(updateTask)
-    }
-
+    let [filter, setFilter] = useState<FilterValuesType>("all");
 
     let tasksForTodolist = tasks;
 
@@ -55,8 +58,8 @@ function App() {
                       removeTask={removeTask}
                       changeFilter={changeFilter}
                       addTask={addTask}
-                      filter={filter}
-                      changeTaskStatus={changeTaskStatus}/>
+                      changeTasksStatus={changeStatus}
+                      filter={filter}/>
         </div>
     );
 }
