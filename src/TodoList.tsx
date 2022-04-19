@@ -18,7 +18,7 @@ type PropsType = {
     filter:FilterValuesType
 }
 
-export function Todolist(props: PropsType) {
+export function TodoList(props: PropsType) {
 
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>("")
@@ -68,10 +68,11 @@ export function Todolist(props: PropsType) {
                     const onClickHandler = () => props.removeTask(t.id)
 
                     return <li key={t.id}>
+                        <button onClick={onClickHandler}>x</button>
                         <input type="checkbox" checked={t.isDone}
                                onChange={(e) => checkBoxHandler(t.id, e.currentTarget.checked)}/>
                         <span className={t.isDone ? style.isDone : ""}>{t.title}</span>
-                        <button onClick={onClickHandler}>x</button>
+
                     </li>
                 })
             }
