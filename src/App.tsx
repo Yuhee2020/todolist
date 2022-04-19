@@ -15,17 +15,8 @@ function App() {
         {id: v1(), title: "GraphQL", isDone: false},
     ]);
 
-    const changeStatus = (taskId: string, isDone: boolean) => {
-        let task = tasks.find(t => t.id === taskId)
-        if (task) {
-            task.isDone = isDone
-        }
-        setTasks([...tasks])
-    }
-
-
     function removeTask(id: string) {
-        let filteredTasks = tasks.filter(t => t.id !== id);
+        let filteredTasks = tasks.filter(t => t.id != id);
         setTasks(filteredTasks);
     }
 
@@ -33,6 +24,18 @@ function App() {
         let task = {id: v1(), title: title, isDone: false};
         let newTasks = [task, ...tasks];
         setTasks(newTasks);
+    }
+
+    const changeStatusCheckbox = (currentId:string, eventStatus: boolean ) => {
+        /*let currentObject= tasks.find(el=>el.id===currentId)
+        if (currentObject){
+            currentObject.isDone=eventStatus
+            setTasks([...tasks])
+        }*/
+
+        setTasks( tasks.map((el)=>el.id===currentId ? {...el, isDone: eventStatus}: el) )
+
+        console.log(eventStatus)
     }
 
     let [filter, setFilter] = useState<FilterValuesType>("all");
@@ -58,8 +61,8 @@ function App() {
                       removeTask={removeTask}
                       changeFilter={changeFilter}
                       addTask={addTask}
-                      changeTasksStatus={changeStatus}
-                      filter={filter}/>
+                      changeStatusCheckbox={changeStatusCheckbox}
+            />
         </div>
     );
 }
