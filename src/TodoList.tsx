@@ -57,6 +57,7 @@ export function TodoList(props: PropsType) {
                 value={title}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
+
             />
             <button onClick={addTask}>+</button>
             {error && <div className={style.errorMessage}>{error}</div>}
