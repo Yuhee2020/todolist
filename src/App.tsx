@@ -3,6 +3,7 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from "uuid";
 import {FullInput} from "./components/FullInput";
+import {Container, Grid, Paper,} from "@mui/material";
 
 export type FilterType = "all" | "active" | "completed"
 export type TodoListsType = {
@@ -68,41 +69,50 @@ function App() {
     const editTask = (todoListId: string, taskId: string, newTitle: string) => {
         setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id == taskId ? {...el, title: newTitle} : el)})
     }
-    const editTodoListTitle=(todoListId: string,newTitle: string)=>{
-        setTodoLists(todoLists.map(el=>el.id===todoListId?{...el,title:newTitle}:el ))
+    const editTodoListTitle = (todoListId: string, newTitle: string) => {
+        setTodoLists(todoLists.map(el => el.id === todoListId ? {...el, title: newTitle} : el))
     }
 
     return (
         <div className="App">
-            <FullInput callBack={addTodoList}/>
-
-            {todoLists.map(el => {
-
-                let taskForTodolist = tasks[el.id]
-                if (el.filter === "active") {
-                    taskForTodolist = tasks[el.id].filter(el => !el.isDone)
-                }
-                if (el.filter === "completed") {
-                    taskForTodolist = tasks[el.id].filter(el => el.isDone)
-                }
-
-                return <Todolist
-                    key={el.id}
-                    todoListId={el.id}
-                    title={el.title}
-                    tasks={taskForTodolist}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    changeStatus={changeStatus}
-                    filter={el.filter}
-                    removeTodoList={removeTodoList}
-                    editTask={editTask}
-                    editTodoListTitle={editTodoListTitle}/>
-
-            })}
+            <Container fixed>
+                <Grid container spacing={5} >
+                    <Grid item xs={12} style={{textAlign: 'center'}}>
+                        <FullInput callBack={addTodoList}/>
+                    </Grid>
 
 
+                    {todoLists.map(el => {
+
+                        let taskForTodolist = tasks[el.id]
+                        if (el.filter === "active") {
+                            taskForTodolist = tasks[el.id].filter(el => !el.isDone)
+                        }
+                        if (el.filter === "completed") {
+                            taskForTodolist = tasks[el.id].filter(el => el.isDone)
+                        }
+
+                        return <Grid item key={el.id} style={{ marginLeft: "auto", marginRight: "auto"}} >
+                            <Paper elevation={3}style={{padding:" 20px"}}>
+                            <Todolist
+                                key={el.id}
+                                todoListId={el.id}
+                                title={el.title}
+                                tasks={taskForTodolist}
+                                removeTask={removeTask}
+                                changeFilter={changeFilter}
+                                addTask={addTask}
+                                changeStatus={changeStatus}
+                                filter={el.filter}
+                                removeTodoList={removeTodoList}
+                                editTask={editTask}
+                                editTodoListTitle={editTodoListTitle}/>
+                            </Paper>
+                        </Grid>
+
+                    })}
+                </Grid>
+            </Container>
         </div>
     );
 }

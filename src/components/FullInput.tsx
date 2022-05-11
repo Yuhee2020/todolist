@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton} from "@mui/material";
+import {AddCircleOutline, Delete} from "@mui/icons-material";
 
 type PropsType={
  callBack:(title:string)=>void
@@ -23,7 +25,9 @@ export const FullInput=(props:PropsType)=>{
         <input value={title}
                onChange={onChangeHandler}
                onKeyPress={onKeyPressHandler} />
-        <button onClick={addTaskHandler}>+</button>
+        <IconButton onClick={addTaskHandler}>
+            <AddCircleOutline/>
+        </IconButton>
         {error? <div>{error}</div>: ""}
     </div>
 }

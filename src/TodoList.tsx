@@ -2,6 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterType} from "./App";
 import {FullInput} from "./components/FullInput";
 import {EditSpan} from "./components/EditSpan";
+import { IconButton } from '@mui/material';
+import {Delete} from "@mui/icons-material";
 
 export type TaskType = {
     id: string
@@ -52,7 +54,9 @@ export function Todolist(props: PropsType) {
     return <div>
         <h3>
             <EditSpan title={props.title} callBack={editTodolistTitle}/>
-            <button onClick={removeTodoListHandler}>x</button>
+            <IconButton aria-label="delete" onClick={removeTodoListHandler}>
+                <Delete />
+            </IconButton>
         </h3>
         <FullInput callBack={addTask}/>
 
@@ -70,7 +74,9 @@ export function Todolist(props: PropsType) {
                 <input type="checkbox" checked={el.isDone} onChange={changeStatusHandler}/>
                 <EditSpan  callBack={callBackHandler}
                            title={el.title}/>
-                <button onClick={onClickHandler}>x</button>
+                <IconButton aria-label="delete" onClick={onClickHandler}>
+                    <Delete />
+                </IconButton>
             </li>
         })}
 
