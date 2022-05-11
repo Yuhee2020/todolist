@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from "uuid";
+import {FullInput} from "./components/FullInput";
 
 export type FilterType = "all" | "active" | "completed"
 export type TodoListsType = {
@@ -9,8 +10,8 @@ export type TodoListsType = {
     title: string
     filter: FilterType
 }
-export type TasksType={
-    [key:string]:Array<TaskType>
+export type TasksType = {
+    [key: string]: Array<TaskType>
 }
 
 function App() {
@@ -40,8 +41,10 @@ function App() {
             {id: v1(), title: "GraphQL2", isDone: false},
         ]
     });
-    const removeTodoList=(todoListId: string)=>{
-        setTodoLists(todoLists.filter(el=>el.id!==todoListId))
+    const removeTodoList = (todoListId: string) => {
+        setTodoLists(todoLists.filter(el => el.id !== todoListId))
+        delete tasks[todoListId]
+        setTasks({...tasks})
     }
     const addTask = (todoListId: string, title: string) => {
         let newTask = {id: v1(), title: title, isDone: false}
@@ -56,10 +59,22 @@ function App() {
     const changeStatus = (todoListId: string, taskId: string, status: boolean) => {
         setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id === taskId ? {...el, isDone: status} : el)})
     }
-
+    const addTodoList = (title: string) => {
+        let todolistId = v1()
+        let newTodolist: TodoListsType = {id: todolistId, title: title, filter: 'all'}
+        setTodoLists([newTodolist, ...todoLists])
+        setTasks({...tasks, [todolistId]: []})
+    }
+    const editTask = (todoListId: string, taskId: string, newTitle: string) => {
+        setTasks({...tasks, [todoListId]: tasks[todoListId].map(el => el.id == taskId ? {...el, title: newTitle} : el)})
+    }
+    const editTodoListTitle=(todoListId: string,newTitle: string)=>{
+        setTodoLists(todoLists.map(el=>el.id===todoListId?{...el,title:newTitle}:el ))
+    }
 
     return (
         <div className="App">
+            <FullInput callBack={addTodoList}/>
 
             {todoLists.map(el => {
 
@@ -81,7 +96,9 @@ function App() {
                     addTask={addTask}
                     changeStatus={changeStatus}
                     filter={el.filter}
-                    removeTodoList={removeTodoList}/>
+                    removeTodoList={removeTodoList}
+                    editTask={editTask}
+                    editTodoListTitle={editTodoListTitle}/>
 
             })}
 
