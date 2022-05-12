@@ -4,6 +4,7 @@ import {TaskType, Todolist} from './Todolist';
 import {v1} from "uuid";
 import {FullInput} from "./components/FullInput";
 import {Container, Grid, Paper,} from "@mui/material";
+import ButtonAppBar from "./components/AppBar";
 
 export type FilterType = "all" | "active" | "completed"
 export type TodoListsType = {
@@ -74,11 +75,14 @@ function App() {
     }
 
     return (
+
         <div className="App">
+
             <Container fixed>
+                <ButtonAppBar/>
                 <Grid container spacing={5} >
-                    <Grid item xs={12} style={{textAlign: 'center'}}>
-                        <FullInput callBack={addTodoList}/>
+                    <Grid item xs={12} style={{textAlign: 'center', marginTop:"20px"}}>
+                        <FullInput callBack={addTodoList} />
                     </Grid>
 
 
