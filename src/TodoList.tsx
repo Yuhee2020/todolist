@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {FilterType} from "./App";
 import {FullInput} from "./components/FullInput";
 import {EditSpan} from "./components/EditSpan";
-import { IconButton } from '@mui/material';
+import {Button, Checkbox, IconButton} from '@mui/material';
 import {Delete} from "@mui/icons-material";
 
 export type TaskType = {
@@ -71,7 +71,7 @@ export function Todolist(props: PropsType) {
                 editTask(el.id,newTitle)
             }
             return <li key={el.id}>
-                <input type="checkbox" checked={el.isDone} onChange={changeStatusHandler}/>
+                <Checkbox checked={el.isDone} onChange={changeStatusHandler} color="success"/>
                 <EditSpan  callBack={callBackHandler}
                            title={el.title}/>
                 <IconButton aria-label="delete" onClick={onClickHandler}>
@@ -82,9 +82,10 @@ export function Todolist(props: PropsType) {
 
         </ul>
         <div>
-            <button onClick={onAllClickHandler}>All</button>
-            <button onClick={onActiveClickHandler}>Active</button>
-            <button onClick={onCompletedClickHandler}>Completed</button>
+            <Button variant={props.filter==="all"? "contained" :"outlined"} onClick={onAllClickHandler}>All</Button>
+            <Button variant={props.filter==="active"? "contained" :"outlined"} onClick={onActiveClickHandler} >Active</Button>
+            <Button variant={props.filter==="completed"? "contained" :"outlined"} onClick={onCompletedClickHandler}>Completed</Button>
+
         </div>
     </div>
 }
