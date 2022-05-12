@@ -60,7 +60,7 @@ export function Todolist(props: PropsType) {
         </h3>
         <FullInput callBack={addTask}/>
 
-        <ul>{props.tasks.map(el => {
+        {props.tasks.map(el => {
             const onClickHandler = () => {
                 props.removeTask(props.todoListId, el.id)
             }
@@ -70,17 +70,17 @@ export function Todolist(props: PropsType) {
             const callBackHandler=(newTitle: string)=>{
                 editTask(el.id,newTitle)
             }
-            return <li key={el.id}>
+            return <div key={el.id}>
                 <Checkbox checked={el.isDone} onChange={changeStatusHandler} color="success"/>
                 <EditSpan  callBack={callBackHandler}
                            title={el.title}/>
                 <IconButton aria-label="delete" onClick={onClickHandler}>
                     <Delete />
                 </IconButton>
-            </li>
+            </div>
         })}
 
-        </ul>
+
         <div>
             <Button variant={props.filter==="all"? "contained" :"outlined"} onClick={onAllClickHandler}>All</Button>
             <Button variant={props.filter==="active"? "contained" :"outlined"} onClick={onActiveClickHandler} >Active</Button>
