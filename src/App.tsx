@@ -55,7 +55,7 @@ function App() {
 
         <div className="App">
 
-            <Container fixed>
+            <Container fixed  style={{ marginLeft: "auto", marginRight: "auto"}}>
                 <ButtonAppBar/>
                 <Grid container spacing={5} >
                     <Grid item xs={12} style={{textAlign: 'center', marginTop:"20px"}}>
@@ -74,7 +74,7 @@ function App() {
                         }
 
                         return <Grid item key={el.id} style={{ marginLeft: "auto", marginRight: "auto"}} >
-                            <Paper elevation={3} style={{padding:" 20px"}}>
+                            <Paper elevation={3} style={{padding:"20px"}}>
                             <Todolist
                                 key={el.id}
                                 todoListId={el.id}
