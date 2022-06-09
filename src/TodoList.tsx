@@ -1,9 +1,10 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {FilterType} from "./App";
 import {FullInput} from "./components/FullInput";
 import {EditSpan} from "./components/EditSpan";
-import {Button, Checkbox, IconButton} from '@mui/material';
+import {Button, IconButton} from '@mui/material';
 import {Delete} from "@mui/icons-material";
+import {Task} from "./components/Task";
 
 export type TaskType = {
     id: string
@@ -21,8 +22,8 @@ type PropsType = {
     todoListId: string
     filter: FilterType
     removeTodoList: (todoListId: string) => void
-    editTask:(todoListId: string,taskId: string, newTitle: string)=>void
-    editTodoListTitle:(todoListId: string,newTitle: string)=>void
+    editTask: (todoListId: string, taskId: string, newTitle: string) => void
+    editTodoListTitle: (todoListId: string, newTitle: string) => void
 }
 
 
@@ -43,14 +44,14 @@ export function Todolist(props: PropsType) {
     const addTask = (title: string) => {
         props.addTask(props.todoListId, title)
     }
-    const editTask= (taskId:string,newTitle: string )=>{
-        props.editTask(props.todoListId, taskId,newTitle)
+    const editTask = (taskId: string, newTitle: string) => {
+        props.editTask(props.todoListId, taskId, newTitle)
     }
-    const editTodolistTitle=(newTitle:string)=>{
+    const editTodolistTitle = (newTitle: string) => {
         props.editTodoListTitle(props.todoListId, newTitle)
     }
 
-    let taskForTodolist=props.tasks
+    let taskForTodolist = props.tasks
     if (props.filter === "active") {
         taskForTodolist = props.tasks.filter(el => !el.isDone)
     }
@@ -58,42 +59,33 @@ export function Todolist(props: PropsType) {
         taskForTodolist = props.tasks.filter(el => el.isDone)
     }
 
-    return <div>
+    return (<>
         <h3>
             <EditSpan title={props.title} callBack={editTodolistTitle}/>
             <IconButton aria-label="delete" onClick={removeTodoListHandler}>
-                <Delete />
+                <Delete/>
             </IconButton>
         </h3>
         <FullInput callBack={addTask}/>
 
         {taskForTodolist.map(el => {
-            const onClickHandler = () => {
-                props.removeTask(props.todoListId, el.id)
-            }
-            const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                props.changeStatus(props.todoListId, el.id, e.currentTarget.checked)
-            }
-            const callBackHandler=(newTitle: string)=>{
-                editTask(el.id,newTitle)
-            }
-
-            return <div key={el.id}>
-                <Checkbox checked={el.isDone} onChange={changeStatusHandler} color="success"/>
-                <EditSpan  callBack={callBackHandler}
-                           title={el.title}/>
-                <IconButton aria-label="delete" onClick={onClickHandler}>
-                    <Delete />
-                </IconButton>
-            </div>
+           return <Task
+                key={el.id}
+                removeTask={props.removeTask}
+                changeStatus={props.changeStatus}
+                editTask={editTask}
+                todoListId={props.todoListId}
+                task={el}/>
         })}
 
 
         <div>
-            <Button variant={props.filter==="all"? "contained" :"outlined"} onClick={onAllClickHandler}>All</Button>
-            <Button variant={props.filter==="active"? "contained" :"outlined"} onClick={onActiveClickHandler} >Active</Button>
-            <Button variant={props.filter==="completed"? "contained" :"outlined"} onClick={onCompletedClickHandler}>Completed</Button>
+            <Button variant={props.filter === "all" ? "contained" : "outlined"} onClick={onAllClickHandler}>All</Button>
+            <Button variant={props.filter === "active" ? "contained" : "outlined"}
+                    onClick={onActiveClickHandler}>Active</Button>
+            <Button variant={props.filter === "completed" ? "contained" : "outlined"}
+                    onClick={onCompletedClickHandler}>Completed</Button>
 
         </div>
-    </div>
+    </>)
 }
