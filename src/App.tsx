@@ -66,12 +66,7 @@ function App() {
                     {todoLists.map(el => {
 
                         let taskForTodolist = tasks[el.id]
-                        if (el.filter === "active") {
-                            taskForTodolist = tasks[el.id].filter(el => !el.isDone)
-                        }
-                        if (el.filter === "completed") {
-                            taskForTodolist = tasks[el.id].filter(el => el.isDone)
-                        }
+
 
                         return <Grid item key={el.id} style={{ marginLeft: "auto", marginRight: "auto"}} >
                             <Paper elevation={3} style={{padding:"20px"}}>

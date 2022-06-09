@@ -50,6 +50,13 @@ export function Todolist(props: PropsType) {
         props.editTodoListTitle(props.todoListId, newTitle)
     }
 
+    let taskForTodolist=props.tasks
+    if (props.filter === "active") {
+        taskForTodolist = props.tasks.filter(el => !el.isDone)
+    }
+    if (props.filter === "completed") {
+        taskForTodolist = props.tasks.filter(el => el.isDone)
+    }
 
     return <div>
         <h3>
@@ -60,7 +67,7 @@ export function Todolist(props: PropsType) {
         </h3>
         <FullInput callBack={addTask}/>
 
-        {props.tasks.map(el => {
+        {taskForTodolist.map(el => {
             const onClickHandler = () => {
                 props.removeTask(props.todoListId, el.id)
             }
@@ -70,6 +77,7 @@ export function Todolist(props: PropsType) {
             const callBackHandler=(newTitle: string)=>{
                 editTask(el.id,newTitle)
             }
+
             return <div key={el.id}>
                 <Checkbox checked={el.isDone} onChange={changeStatusHandler} color="success"/>
                 <EditSpan  callBack={callBackHandler}
