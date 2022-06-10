@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FilterType} from "./App";
 import {FullInput} from "./components/FullInput";
 import {EditSpan} from "./components/EditSpan";
@@ -27,29 +27,30 @@ type PropsType = {
 }
 
 
-export function Todolist(props: PropsType) {
+export const Todolist=React.memo((props: PropsType)=> {
 
-    const onAllClickHandler = () => {
+    console.log("todolist called")
+    const onAllClickHandler =useCallback( () => {
         props.changeFilter(props.todoListId, "all")
-    }
-    const onActiveClickHandler = () => {
+    },[props.changeFilter,props.todoListId])
+    const onActiveClickHandler =useCallback( () => {
         props.changeFilter(props.todoListId, "active")
-    }
-    const onCompletedClickHandler = () => {
+    },[props.changeFilter,props.todoListId])
+    const onCompletedClickHandler =useCallback (() => {
         props.changeFilter(props.todoListId, "completed")
-    }
+    },[props.changeFilter,props.todoListId])
     const removeTodoListHandler = () => {
         props.removeTodoList(props.todoListId)
     }
-    const addTask = (title: string) => {
+    const addTask =useCallback( (title: string) => {
         props.addTask(props.todoListId, title)
-    }
-    const editTask = (taskId: string, newTitle: string) => {
+    },[props.addTask,props.todoListId])
+    const editTask = useCallback((taskId: string, newTitle: string) => {
         props.editTask(props.todoListId, taskId, newTitle)
-    }
-    const editTodolistTitle = (newTitle: string) => {
+    },[props.editTask,props.todoListId])
+    const editTodolistTitle =useCallback( (newTitle: string) => {
         props.editTodoListTitle(props.todoListId, newTitle)
-    }
+    },[props.editTodoListTitle,props.todoListId])
 
     let taskForTodolist = props.tasks
     if (props.filter === "active") {
@@ -88,4 +89,4 @@ export function Todolist(props: PropsType) {
 
         </div>
     </>)
-}
+})
