@@ -6,7 +6,7 @@ type PropsType = {
 }
 
 
-export const EditSpan = (props: PropsType) => {
+export const EditSpan =React.memo( (props: PropsType) => {
     const [edit, setEdit] = useState(false)
     const [newTitle, setNewTitle] = useState(props.title)
 
@@ -31,4 +31,4 @@ export const EditSpan = (props: PropsType) => {
                 onChange={onChangeHandler}/>
             : <span onDoubleClick={setEditMode}>{props.title}</span>
     )
-}
+})

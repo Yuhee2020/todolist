@@ -6,26 +6,29 @@ type PropsType = {
     callBack: (title: string) => void
 }
 
-export const FullInput = (props: PropsType) => {
+export const FullInput = React.memo((props: PropsType) => {
+    console.log("FullInput called")
     const [title, setTitle] = useState("")
-    const [error, setError] = useState("")
+    const [error, setError] = useState<null | string>(null)
 
     const addTaskHandler = () => {
         title.trim() ? props.callBack(title.trim()) : setError("title is required")
         setTitle("")
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        error !== null && setError(null)
         setTitle(e.currentTarget.value)
-        setError("")
+
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         e.key === "Enter" && addTaskHandler()
+
     }
     return <div>
 
         <TextField
             error={!!error}
-            helperText={error? error : ''}
+            helperText={error ? error : ''}
             id="outlined-basic"
             label="Enter title"
             variant="outlined"
@@ -38,5 +41,5 @@ export const FullInput = (props: PropsType) => {
         </IconButton>
 
     </div>
-}
+})
 
