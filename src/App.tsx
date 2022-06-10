@@ -6,8 +6,7 @@ import {Container, Grid, Paper,} from "@mui/material";
 import ButtonAppBar from "./components/AppBar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
-import {addTodoListAC, changeFilterAC, editTodoListTitleAC, removeTodoListAC} from "./redux/todoLists.reducer";
-import {addTaskAC, changeStatusAC, editTaskAC, removeTaskAC} from "./redux/tasks.reducer";
+import {addTodoListAC} from "./redux/todoLists.reducer";
 
 export type FilterType = "all" | "active" | "completed"
 export type TodoListsType = {
@@ -20,70 +19,29 @@ export type TasksType = {
 }
 
 function App() {
-
     console.log("App called")
-    const tasks=useSelector<AppRootStateType, TasksType>(state => state.tasks)
-    const todoLists=useSelector<AppRootStateType, TodoListsType[]>(state => state.todolists)
-    const dispatch=useDispatch()
-
-    const removeTodoList =useCallback( (todoListId: string) => {
-        dispatch(removeTodoListAC(todoListId))
-    },[])
-    const addTask =useCallback( (todoListId: string, title: string) => {
-        dispatch(addTaskAC(todoListId,title))
-    },[])
-    const removeTask =useCallback( (todoListId: string, taskId: string) => {
-        dispatch(removeTaskAC(todoListId,taskId))
-    },[])
-    const changeFilter =useCallback( (todoListId: string, value: FilterType) => {
-        dispatch(changeFilterAC(todoListId,value))
-            },[])
-    const changeStatus =useCallback( (todoListId: string, taskId: string, status: boolean) => {
-        dispatch(changeStatusAC(todoListId,taskId,status))
-
-    },[])
-    const addTodoList =useCallback( (title: string) => {
+    const todoLists = useSelector<AppRootStateType, TodoListsType[]>(state => state.todolists)
+    const dispatch = useDispatch()
+    const addTodoList = useCallback((title: string) => {
         dispatch(addTodoListAC(title))
-    },[])
-    const editTask =useCallback( (todoListId: string, taskId: string, newTitle: string) => {
-        dispatch(editTaskAC(todoListId,taskId,newTitle))
-    },[])
-    const editTodoListTitle =useCallback( (todoListId: string, newTitle: string) => {
-        dispatch(editTodoListTitleAC(todoListId,newTitle))
-    },[])
+    }, [])
 
     return (
 
         <div className="App">
-
-            <Container fixed  style={{ marginLeft: "auto", marginRight: "auto"}}>
+            <Container fixed style={{marginLeft: "auto", marginRight: "auto"}}>
                 <ButtonAppBar/>
-                <Grid container spacing={5} >
-                    <Grid item xs={12} style={{textAlign: 'center', marginTop:"20px"}}>
-                        <FullInput callBack={addTodoList} />
+                <Grid container spacing={5}>
+                    <Grid item xs={12} style={{textAlign: 'center', marginTop: "20px"}}>
+                        <FullInput callBack={addTodoList}/>
                     </Grid>
-
-
                     {todoLists.map(el => {
-
-                        let taskForTodolist = tasks[el.id]
-
-
-                        return <Grid item key={el.id} style={{ marginLeft: "auto", marginRight: "auto"}} >
-                            <Paper elevation={3} style={{padding:"20px"}}>
-                            <Todolist
-                                key={el.id}
-                                todoListId={el.id}
-                                title={el.title}
-                                tasks={taskForTodolist}
-                                removeTask={removeTask}
-                                changeFilter={changeFilter}
-                                addTask={addTask}
-                                changeStatus={changeStatus}
-                                filter={el.filter}
-                                removeTodoList={removeTodoList}
-                                editTask={editTask}
-                                editTodoListTitle={editTodoListTitle}/>
+                        return <Grid item key={el.id} style={{marginLeft: "auto", marginRight: "auto"}}>
+                            <Paper elevation={3} style={{padding: "20px"}}>
+                                <Todolist
+                                    todolist={el}
+                                    key={el.id}
+                                />
                             </Paper>
                         </Grid>
 
